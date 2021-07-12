@@ -1,6 +1,13 @@
-import React, { Component } from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
+import React, { Component, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import authApi from "./api/authApi";
+import { setValueAuth } from "./authSlice";
+//import { islogin } from "./authSlice";
+//import { islogin } from "./appSlice";
+import PublicRoute from "./routes/PublicRoute";
 import "./scss/style.scss";
+import Login from "./views/pages/login/Login";
 
 const loading = (
   <div className="pt-3 text-center">
@@ -12,51 +19,49 @@ const loading = (
 const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 
 // Pages
-const Login = React.lazy(() => import("./views/pages/login/Login"));
+
 const Register = React.lazy(() => import("./views/pages/register/Register"));
 const Page404 = React.lazy(() => import("./views/pages/page404/Page404"));
 const Page500 = React.lazy(() => import("./views/pages/page500/Page500"));
 
-class App extends Component {
-  render() {
-    return (
-      <HashRouter>
-        <React.Suspense fallback={loading}>
-          <Switch>
-            <Route
-              exact
-              path="/login"
-              name="Login Page"
-              render={(props) => <Login {...props} />}
-            />
-            <Route
-              exact
-              path="/register"
-              name="Register Page"
-              render={(props) => <Register {...props} />}
-            />
-            <Route
-              exact
-              path="/404"
-              name="Page 404"
-              render={(props) => <Page404 {...props} />}
-            />
-            <Route
-              exact
-              path="/500"
-              name="Page "
-              render={(props) => <Page500 {...props} />}
-            />
-            <Route
-              path="/"
-              name="Home"
-              render={(props) => <TheLayout {...props} />}
-            />
-          </Switch>
-        </React.Suspense>
-      </HashRouter>
-    );
-  }
+function App() {
+
+  const dispatch = useDispatch();
+  const loginStatus = useSelector((state) => state.auth.loginStatus)
+
+
+  useEffect(() => {
+    const cloneStatus = !!loginStatus;
+
+    console.log(cloneStatus);
+
+    if (!cloneStatus) {
+      console.log("check login");
+      authApi.isLogin().then(res => {
+        dispatch(setValueAuth(true));
+      }).catch(err => {
+        console.log(err);
+        dispatch(setValueAuth(false));
+      })
+      //dispatch(islogin());
+      //dispatch(islogin());
+    }
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <React.Suspense fallback={loading}>
+        <Switch>
+          <PublicRoute
+            restricted={true}
+            component={Login}
+            path="/login"
+            exact
+          />
+        </Switch>
+      </React.Suspense>
+    </BrowserRouter>
+  );
 }
 
 export default App;
