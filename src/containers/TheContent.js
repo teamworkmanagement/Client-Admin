@@ -23,17 +23,20 @@ const TheContent = () => {
       <CContainer fluid>
         <Suspense fallback={loading}>
           <Switch>
-            {routes.map((route, idx) => {
-              return route.component && (
+          {routes.map((route, idx) => {
+            return (
+              route.component && (
                 <PrivateRoute
                   key={idx}
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  component={route.component} />
+                  component={route.component}
+                />
               )
-            })}
-            <Redirect from="/" to="/dashboard" />
+            );
+          })}
+          <Redirect from="/" to="/login" />
           </Switch>
         </Suspense>
       </CContainer>

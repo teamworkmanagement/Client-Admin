@@ -43,13 +43,17 @@ function App() {
         console.log(err);
         dispatch(setValueAuth(false));
       })
-      //dispatch(islogin());
-      //dispatch(islogin());
     }
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      getUserConfirmation={(message, callback) => {
+        // this is the default behavior
+        const allowTransition = window.confirm(message);
+        callback(allowTransition);
+      }}
+    >
       <React.Suspense fallback={loading}>
         <Switch>
           <PublicRoute
@@ -57,6 +61,12 @@ function App() {
             component={Login}
             path="/login"
             exact
+          />
+
+          <Route
+            path="/"
+            name="Home"
+            render={(props) => <TheLayout {...props} />}
           />
         </Switch>
       </React.Suspense>

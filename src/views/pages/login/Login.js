@@ -39,7 +39,10 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(loginObject));
+    dispatch(login({
+      ...loginObject,
+      isAdmin: true
+    }));
   }
 
   return (
