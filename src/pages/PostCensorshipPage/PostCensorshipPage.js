@@ -376,7 +376,7 @@ const PostCensorshipPage = () => {
     <div className="post-censorship-page">
       <CCard>
         <CCardHeader>
-          <h4>Danh sách bài viết cần kiểm duyệt</h4>
+          <h4>Danh sách bài viết được báo cáo</h4>
         </CCardHeader>
         <CCardBody>
           <div className="button-selection-group">

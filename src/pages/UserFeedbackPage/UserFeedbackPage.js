@@ -11,10 +11,16 @@ import {
   CDataTable,
   CInputCheckbox,
 } from "@coreui/react";
+import feedbackApi from "src/api/feedbackApi";
+import moment from "moment";
+import "moment/locale/vi";
+
+moment.locale("vi");
 
 function UserFeedbackPage(props) {
   const feedbacksDataInit = [
     {
+      id: 1,
       content:
         "Duis cursus imperdiet nisi tempus finibus. Morbi varius, diam sit amet fermentum ullamcorper, turpis diam maximus sem, vitae blandit nisi mi a odio. Curabitur molestie, libero at efficitur convallis, quam tortor imperdiet mi, non aliquet diam diam vitae purus. Proin aliquet mollis iaculis. Sed dapibus vehicula magna, non aliquet felis semper vel. Fusce eu urna enim. ",
       userName: "Ngọc Huy",
@@ -26,6 +32,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 2,
       content:
         "Pellentesque quis nibh ac quam condimentum faucibus. Ut cursus efficitur magna eget interdum. Integer vel lacus ante. In volutpat tristique luctus. ",
       userName: "Thanh Duyên",
@@ -37,6 +44,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 3,
       content:
         "Praesent sit amet sem eget quam tincidunt feugiat ac sit amet elit. Duis sed urna rutrum, finibus nunc eget, tempus arcu. Nulla in erat diam. Curabitur ipsum neque, aliquet eget euismod id, porta et lacus. Curabitur nec dui id lacus accumsan bibendum.",
       userName: "Hồng Khoa",
@@ -48,6 +56,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 4,
       content:
         "Maecenas id lacus egestas, luctus tortor a, sodales justo. Vivamus tristique ex vel nisi rutrum, vitae lacinia lorem fermentum. Proin dolor sapien, consequat a elit id, mattis lacinia dui.",
       userName: "Popo",
@@ -59,6 +68,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 5,
       content:
         "Donec quis turpis id felis ullamcorper consectetur. Curabitur blandit nisl vel velit varius, non gravida massa pulvinar. Vivamus lacinia augue nec dictum suscipit. Cras purus augue, placerat eget dignissim eu, placerat et metus. Nunc risus mi, laoreet id nibh sed, lacinia luctus nulla.",
       userName: "Anthony",
@@ -70,6 +80,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 6,
       content:
         "Sed ultrices lorem metus, et vulputate nisl pellentesque id. Mauris placerat, lorem id volutpat dapibus, purus lorem finibus erat, ut convallis ligula ex in quam.",
       userName: "Khá Bảnh",
@@ -81,6 +92,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 7,
       content:
         "Suspendisse quis purus mi. Ut sollicitudin viverra ipsum faucibus scelerisque. Vestibulum eros lectus, fermentum at accumsan at, ullamcorper nec massa. Duis interdum laoreet elit, quis lobortis lorem rutrum dapibus. Ut condimentum lacus id libero finibus viverra. Aenean et metus consectetur, lobortis massa et, porta eros.",
       userName: "Huấn Hoa Hồng",
@@ -92,6 +104,7 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
     {
+      id: 8,
       content:
         "Maecenas id lacus egestas, luctus tortor a, sodales justo. Vivamus tristique ex vel nisi rutrum, vitae lacinia lorem fermentum. Proin dolor sapien, consequat a elit id, mattis lacinia dui. Donec quis turpis id felis ullamcorper consectetur. Curabitur blandit nisl vel velit varius, non gravida massa pulvinar. Vivamus lacinia augue nec dictum suscipit. Cras purus augue, placerat eget dignissim eu, placerat et metus. Nunc risus mi, laoreet id nibh sed, lacinia luctus nulla. Sed ultrices lorem metus, et vulputate nisl pellentesque id. Mauris placerat, lorem id volutpat dapibus, purus lorem finibus erat, ut convallis ligula ex in quam.",
       userName: "Trốn cha trốn mẹ",
@@ -103,9 +116,18 @@ function UserFeedbackPage(props) {
       isShown: false,
     },
   ];
-  const [feedbacksData, setFeedbacksData] = useState(feedbacksDataInit);
+  const [feedbacksData, setFeedbacksData] = useState([]);
   const [selectedFeedbackIndexs, setSelectedFeedbackIndexs] = useState([]);
 
+  useEffect(() => {
+    feedbackApi.getFeedbacks()
+      .then(res => {
+        setFeedbacksData(res.data);
+      })
+      .catch(err => {
+
+      })
+  }, [])
   useEffect(() => {
     var clonedSelecteds = [];
     for (let i = 0; i < feedbacksData.length; i++) {
@@ -116,16 +138,23 @@ function UserFeedbackPage(props) {
     setSelectedFeedbackIndexs(clonedSelecteds);
   }, [feedbacksData]);
 
-  const confirmPost = (index) => {
+  const confirmPost = (item, index) => {
     var clonedFeedbacks = [...feedbacksData];
     clonedFeedbacks[index] = {
       ...clonedFeedbacks[index],
-      status: 0,
+      status: 1,
     };
     setFeedbacksData(clonedFeedbacks);
+    feedbackApi.makeSeen({
+      feedbackIds: [item.id]
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
   };
 
-  const removeItem = (index) => {
+  const removeItem = (item, index) => {
     var clonedFeedbacks = [];
     for (let i = 0; i < feedbacksData.length; i++) {
       if (i !== index) {
@@ -133,6 +162,14 @@ function UserFeedbackPage(props) {
       }
     }
     setFeedbacksData(clonedFeedbacks);
+
+    feedbackApi.remove({
+      feedbackIds: [item.id]
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
   };
 
   const toggleDetails = (index) => {
@@ -145,7 +182,7 @@ function UserFeedbackPage(props) {
     setFeedbacksData(clonedFeedbacks);
   };
 
-  const onSelectRow = (index) => {
+  const onSelectRow = (item, index) => {
     //debugger;
     var clonedFeedbacks = [...feedbacksData];
     const isSelected = clonedFeedbacks[index].isSelected;
@@ -179,7 +216,7 @@ function UserFeedbackPage(props) {
 
   const getBadge = (status) => {
     switch (status) {
-      case 0:
+      case 1:
         return "success";
       default:
         return "danger";
@@ -188,7 +225,7 @@ function UserFeedbackPage(props) {
 
   const getStatusText = (status) => {
     switch (status) {
-      case 0:
+      case 1:
         return "Đã xem";
       default:
         return "Mới";
@@ -200,36 +237,60 @@ function UserFeedbackPage(props) {
   }
 
   function confirmAll() {
+    let feedbacks = [];
     var clonedFeedbacks = [...feedbacksData];
     for (let i = 0; i < feedbacksData.length; i++) {
       if (selectedFeedbackIndexs.indexOf(i) >= 0) {
         clonedFeedbacks[i] = {
           ...clonedFeedbacks[i],
-          status: 0, //trạng thái confirm
+          status: 1, //trạng thái confirm
           isSelected: false,
         };
+
+        feedbacks.push(clonedFeedbacks[i].id);
       }
     }
     setFeedbacksData(clonedFeedbacks);
     setSelectedFeedbackIndexs([]); //confirm xong bỏ chọn hết
+    feedbackApi.makeSeen({
+      feedbackIds: feedbacks
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
   }
 
   function removeAll() {
+    let feedbacks = [];
+    console.log(selectedFeedbackIndexs);
     var clonedFeedbacks = [];
     for (let i = 0; i < feedbacksData.length; i++) {
       if (selectedFeedbackIndexs.indexOf(i) < 0) {
         clonedFeedbacks.push(feedbacksData[i]);
       }
+
+      else {
+        feedbacks.push(feedbacksData[i].id);
+      }
     }
     setFeedbacksData(clonedFeedbacks);
     setSelectedFeedbackIndexs([]); //confirm xong bỏ chọn hết
+
+    feedbackApi.remove({
+      feedbackIds: feedbacks,
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
   }
 
   return (
     <div className="user-feedback-page">
       <CCard>
         <CCardHeader>
-          <h4>Danh sách bài viết cần kiểm duyệt</h4>
+          <h4>Phản hồi của người dùng</h4>
         </CCardHeader>
         <CCardBody>
           <div className="button-selection-group">
@@ -277,7 +338,7 @@ function UserFeedbackPage(props) {
                       className="select-row"
                       name={`checkbox${index}`}
                       onClick={() => {
-                        onSelectRow(index);
+                        onSelectRow(item, index);
                       }}
                       checked={item.isSelected}
                     />
@@ -285,7 +346,7 @@ function UserFeedbackPage(props) {
                 );
               },
               createdDate: (item) => {
-                return <td>{item.createdDate}</td>;
+                return <td>{moment(item.createdDate).format('DD/MM/YYYY HH:mm:ss')}</td>;
               },
               content: (item) => {
                 return (
@@ -343,18 +404,18 @@ function UserFeedbackPage(props) {
                       <div className="text-muted"> {item.content}</div>
                       <div className="group-btn">
                         <div className="validate-group">
-                          <CButton
+                          {item.status === 0 && <CButton
                             size="sm"
                             color="success"
-                            onClick={() => confirmPost(index)}
+                            onClick={() => confirmPost(item, index)}
                           >
                             Đánh dấu đã xem
-                          </CButton>
+                          </CButton>}
                         </div>
                         <CButton
                           size="sm"
                           color="info"
-                          onClick={() => removeItem(index)}
+                          onClick={() => removeItem(item, index)}
                         >
                           Gỡ khỏi danh sách
                         </CButton>

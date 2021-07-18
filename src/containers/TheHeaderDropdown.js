@@ -8,12 +8,13 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { delete_cookie } from 'src/api'
 import { setAuthF } from 'src/authSlice'
 
 const TheHeaderDropdown = () => {
   const dispatch = useDispatch();
+  const admin = useSelector(state => state.auth.currentUser);
 
   const onSignOut = () => {
     dispatch(setAuthF());
@@ -28,7 +29,7 @@ const TheHeaderDropdown = () => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={admin.userAvatar}
             className="c-avatar-img"
             alt="admin"
           />

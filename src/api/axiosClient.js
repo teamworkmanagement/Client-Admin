@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setValueAuth } from "src/authSlice.js";
 import { API_URL } from "src/env";
 //import { setValueAuth } from "src/views/pages/login/authSlice";
 import store from "../store.js";
@@ -41,7 +42,7 @@ axiosClient.interceptors.response.use(
       console.log('er1 res', err.response);
       console.log('er1 data', err.response.data);
 
-      //if (err.response.status === 401) store.dispatch(setValueAuth(false));
+      if (err.response.status === 401) store.dispatch(setValueAuth(false));
 
       if (err.response.status === 500) {
         if (getCookie("TokenExpired") === "true") {
@@ -61,7 +62,7 @@ axiosClient.interceptors.response.use(
               });
             })
             .catch((error) => {
-              //store.dispatch(setValueAuth(false));
+              store.dispatch(setValueAuth(false));
               return Promise.reject(error);
             });
         }
@@ -88,7 +89,7 @@ axiosClient.interceptors.response.use(
             });
           })
           .catch((error) => {
-            //store.dispatch(setValueAuth(false));
+            store.dispatch(setValueAuth(false));
             return Promise.reject(error);
           });
       }

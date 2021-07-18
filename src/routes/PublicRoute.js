@@ -10,7 +10,7 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
       {...rest}
       render={(props) =>
         status && restricted ? (
-          <Redirect to="/dashboard" />
+          <Redirect to="/postcensorship" />
         ) : (
           <Component {...props} />
         )

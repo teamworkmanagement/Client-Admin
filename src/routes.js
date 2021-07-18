@@ -80,12 +80,6 @@ const routes = [
     exact: true,
   },
   {
-    path: "/usercensorship",
-    name: "Kiểm duyệt người dùng",
-    component: UserCensorshipPage,
-    exact: true,
-  },
-  {
     path: "/feedbacks",
     name: "Phản hồi từ người dùng",
     component: UserFeedbackPage,
