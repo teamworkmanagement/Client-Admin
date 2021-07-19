@@ -11,10 +11,14 @@ import {
   CButton,
   CCollapse,
   CInputCheckbox,
+  CModal,
+  CModalHeader,
+  CModalBody,
 } from "@coreui/react";
 import { rgbToHex } from "@coreui/utils";
 import { DocsLink } from "src/reusable";
 import "./PostCensorshipPage.scss";
+import ImageGallery from 'react-image-gallery';
 
 const PostCensorshipPage = () => {
   //status : 0: seen, 1: new
@@ -31,6 +35,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-1.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://picsum.photos/id/1015/1000/600/',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 1,
@@ -44,6 +59,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-2.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 2,
@@ -57,6 +83,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-3.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 3,
@@ -70,6 +107,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-4.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 4,
@@ -83,6 +131,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-5.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 5,
@@ -96,6 +155,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-6.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 6,
@@ -109,6 +179,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-7.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 7,
@@ -122,6 +203,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-8.jpg",
       },
       status: "1",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 8,
@@ -135,6 +227,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-9.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 9,
@@ -148,6 +251,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-10.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 10,
@@ -161,6 +275,17 @@ const PostCensorshipPage = () => {
         userAvatar: "",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 11,
@@ -174,6 +299,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-12.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 12,
@@ -187,6 +323,17 @@ const PostCensorshipPage = () => {
         userAvatar: "",
       },
       status: "1",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 13,
@@ -200,6 +347,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-14.jpg",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 14,
@@ -213,6 +371,17 @@ const PostCensorshipPage = () => {
         userAvatar: "",
       },
       status: "2",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 15,
@@ -226,6 +395,17 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-16.jpg",
       },
       status: "1",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
     {
       id: 16,
@@ -239,11 +419,24 @@ const PostCensorshipPage = () => {
         userAvatar: "https://emilus.themenate.net/img/avatars/thumb-17.jpg",
       },
       status: "0",
+      images: [
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        },
+        {
+          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
+        }
+      ]
     },
   ];
 
   const [postsData, setPostsData] = useState(postsDataInit);
   const [selectedPostIndexs, setSelectedPostIndexs] = useState([]);
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     var clonedSelecteds = [];
@@ -362,6 +555,7 @@ const PostCensorshipPage = () => {
     { key: "createdDate", label: "Ngày đăng", _style: { width: "5%" } },
 
     { key: "owner", label: "Người đăng", _style: { width: "20%" } },
+    { key: "rpcount", label: "Số báo cáo", _style: { width: "10%" } },
     { key: "status", label: "Trạng thái", _style: { width: "20%" } },
     {
       key: "show_details",
@@ -372,6 +566,18 @@ const PostCensorshipPage = () => {
     },
   ];
 
+
+  const [images, setImages] = useState([]);
+  const viewImages = (item) => {
+    console.log('clicked')
+    setShowModal(true);
+    setImages(item.images);
+  }
+
+  const onCLoseModal = () => {
+    setShowModal(false);
+    setImages([]);
+  }
   return (
     <div className="post-censorship-page">
       <CCard>
@@ -465,6 +671,15 @@ const PostCensorshipPage = () => {
                   </td>
                 );
               },
+              rpcount: (item) => {
+                return (
+                  <td>
+                    <div>
+                      10
+                    </div>
+                  </td>
+                )
+              },
               status: (item) => {
                 return (
                   <td className="status-cell">
@@ -514,6 +729,14 @@ const PostCensorshipPage = () => {
                           >
                             Không hợp lệ
                           </CButton>
+                          {item.images.length > 0 && <CButton
+                            onClick={() => viewImages(item)}
+                            size="sm"
+                            color="info"
+                            className="ml-1"
+                          >
+                            Xem hình ảnh
+                          </CButton>}
                         </div>
                         <CButton
                           size="sm"
@@ -531,6 +754,17 @@ const PostCensorshipPage = () => {
           />
         </CCardBody>
       </CCard>
+
+      <CModal show={showModal} onClose={onCLoseModal}
+        size="lg"
+        closeOnBackdrop="false">
+        <CModalHeader closeButton>
+        </CModalHeader>
+
+        <CModalBody>
+          <ImageGallery showPlayButton={false} items={images} />;
+        </CModalBody>
+      </CModal>
     </div>
   );
 };
