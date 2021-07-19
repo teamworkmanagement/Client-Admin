@@ -19,10 +19,11 @@ import { rgbToHex } from "@coreui/utils";
 import { DocsLink } from "src/reusable";
 import "./PostCensorshipPage.scss";
 import ImageGallery from 'react-image-gallery';
+import postReportApi from "src/api/postReportApi";
 
 const PostCensorshipPage = () => {
   //status : 0: seen, 1: new
-  const postsDataInit = [
+  /*const postsDataInit = [
     {
       id: 0,
       isSelected: false,
@@ -431,12 +432,23 @@ const PostCensorshipPage = () => {
         }
       ]
     },
-  ];
+  ];*/
 
-  const [postsData, setPostsData] = useState(postsDataInit);
+  const [postsData, setPostsData] = useState([]);
   const [selectedPostIndexs, setSelectedPostIndexs] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
+
+
+  useEffect(() => {
+    postReportApi.getReports()
+      .then(res => {
+        setPostsData(res.data);
+      })
+      .catch(err => {
+
+      })
+  }, [])
 
   useEffect(() => {
     var clonedSelecteds = [];
@@ -449,23 +461,53 @@ const PostCensorshipPage = () => {
     console.log(clonedSelecteds);
   }, [postsData]);
 
-  const confirmPost = (index, value) => {
+  const confirmPost = (item, index, value) => {
     var clonedFeedbacks = [...postsData];
     clonedFeedbacks[index] = {
       ...clonedFeedbacks[index],
       status: value ? "1" : "2",
     };
-    setPostsData(clonedFeedbacks);
+
+
+    if (value) {
+      postReportApi.acceptPosts({
+        postIds: [item.postId]
+      }).then(res => {
+        setPostsData(clonedFeedbacks);
+      })
+        .catch(err => {
+
+        })
+    }
+    else {
+      postReportApi.denyPosts({
+        postIds: [item.postId]
+      }).then(res => {
+        setPostsData(clonedFeedbacks);
+      })
+        .catch(err => {
+
+        })
+    }
   };
 
-  const removeItem = (index) => {
+  const removeItem = (item, index) => {
     var clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (i !== index) {
         clonedFeedbacks.push(postsData[i]);
       }
     }
-    setPostsData(clonedFeedbacks);
+
+    postReportApi.removeReports({
+      reportIs: [item.id],
+    })
+      .then(res => {
+        setPostsData(clonedFeedbacks);
+      })
+      .catch(err => {
+
+      })
     console.log(postsData);
   };
 
@@ -518,6 +560,7 @@ const PostCensorshipPage = () => {
   };
 
   function confirmAll(value) {
+    let posts = [];
     var clonedFeedbacks = [...postsData];
     for (let i = 0; i < postsData.length; i++) {
       if (selectedPostIndexs.indexOf(i) >= 0) {
@@ -526,20 +569,57 @@ const PostCensorshipPage = () => {
           status: value ? "1" : "2", //trạng thái confirm
           isSelected: false,
         };
+
+        posts.push(clonedFeedbacks[i].postId);
       }
     }
-    setPostsData(clonedFeedbacks);
+
+    if (value) {
+      postReportApi.acceptPosts({
+        postIds: posts,
+      })
+        .then(res => {
+          setPostsData(clonedFeedbacks);
+        })
+        .catch(err => {
+
+        })
+    }
+    else {
+      postReportApi.denyPosts({
+        postIds: posts,
+      })
+        .then(res => {
+          setPostsData(clonedFeedbacks);
+        })
+        .catch(err => {
+
+        })
+    }
+
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
 
   function removeAll() {
+    let reports = [];
     var clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (selectedPostIndexs.indexOf(i) < 0) {
         clonedFeedbacks.push(postsData[i]);
+        reports.push(postsData[i].id);
       }
     }
-    setPostsData(clonedFeedbacks);
+
+    postReportApi.removeReports({
+      reportIds: reports,
+    })
+      .then(res => {
+        setPostsData(clonedFeedbacks);
+      })
+      .catch(err => {
+
+      })
+
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
 
@@ -717,12 +797,12 @@ const PostCensorshipPage = () => {
                           <CButton
                             size="sm"
                             color="success"
-                            onClick={() => confirmPost(index, true)}
+                            onClick={() => confirmPost(item, index, true)}
                           >
                             Duyệt hợp lệ
                           </CButton>
                           <CButton
-                            onClick={() => confirmPost(index, false)}
+                            onClick={() => confirmPost(item, index, false)}
                             size="sm"
                             color="danger"
                             className="ml-1"
@@ -741,7 +821,7 @@ const PostCensorshipPage = () => {
                         <CButton
                           size="sm"
                           color="info"
-                          onClick={() => removeItem(index)}
+                          onClick={() => removeItem(item, index)}
                         >
                           Gỡ khỏi danh sách
                         </CButton>

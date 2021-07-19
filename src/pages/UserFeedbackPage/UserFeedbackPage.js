@@ -250,12 +250,12 @@ function UserFeedbackPage(props) {
         feedbacks.push(clonedFeedbacks[i].id);
       }
     }
-    setFeedbacksData(clonedFeedbacks);
+    
     setSelectedFeedbackIndexs([]); //confirm xong bỏ chọn hết
     feedbackApi.makeSeen({
       feedbackIds: feedbacks
     }).then(res => {
-
+      setFeedbacksData(clonedFeedbacks);
     }).catch(err => {
 
     })
