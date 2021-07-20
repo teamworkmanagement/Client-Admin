@@ -20,6 +20,10 @@ import { DocsLink } from "src/reusable";
 import "./PostCensorshipPage.scss";
 import ImageGallery from 'react-image-gallery';
 import postReportApi from "src/api/postReportApi";
+import moment from "moment";
+import "moment/locale/vi";
+
+moment.locale("vi");
 
 const PostCensorshipPage = () => {
   //status : 0: seen, 1: new
@@ -500,7 +504,7 @@ const PostCensorshipPage = () => {
     }
 
     postReportApi.removeReports({
-      reportIs: [item.id],
+      reportIds: [item.id],
     })
       .then(res => {
         setPostsData(clonedFeedbacks);
@@ -596,7 +600,6 @@ const PostCensorshipPage = () => {
 
         })
     }
-
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
 
@@ -734,19 +737,19 @@ const PostCensorshipPage = () => {
                 );
               },
               createdDate: (item) => {
-                return <td>{item.createdDate}</td>;
+                return <td>{moment(item.createdDate).format('DD/MM/YYYY HH:mm:ss')}</td>;
               },
 
               owner: (item) => {
                 return (
                   <td className="owner-cell">
                     <div className="owner-cell-content">
-                      {item.owner.userAvatar &&
-                        item.owner.userAvatar !== "" && (
-                          <img alt="" src={item.owner.userAvatar} />
+                      {item.userAvatar &&
+                        item.userAvatar !== "" && (
+                          <img alt="" src={item.userAvatar} />
                         )}
 
-                      {item.owner.userName}
+                      {item.userName}
                     </div>
                   </td>
                 );
@@ -755,7 +758,7 @@ const PostCensorshipPage = () => {
                 return (
                   <td>
                     <div>
-                      10
+                      {item.reportCounts}
                     </div>
                   </td>
                 )
@@ -809,7 +812,7 @@ const PostCensorshipPage = () => {
                           >
                             Không hợp lệ
                           </CButton>
-                          {item.images.length > 0 && <CButton
+                          {item.images?.length > 0 && <CButton
                             onClick={() => viewImages(item)}
                             size="sm"
                             color="info"

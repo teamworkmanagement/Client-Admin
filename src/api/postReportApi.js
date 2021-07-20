@@ -11,7 +11,7 @@ const postReportApi = {
         return axiosClient.post(url, payload);
     },
     acceptPosts(payload) {
-        const url = `/post-report/report`;
+        const url = `/post-report/accept`;
         return axiosClient.post(url, payload);
     },
     removeReports(payload) {
