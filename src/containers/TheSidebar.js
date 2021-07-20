@@ -11,6 +11,7 @@ import {
   CSidebarNavDropdown,
   CSidebarNavItem,
 } from '@coreui/react'
+import './TheSidebar.scss';
 
 import CIcon from '@coreui/icons-react'
 
@@ -25,10 +26,12 @@ const TheSidebar = () => {
   return (
     <CSidebar
       show={show}
-      onShowChange={(val) => dispatch(changeState({type: 'set', sidebarShow: val }))}
+      onShowChange={(val) => dispatch(changeState({ type: 'set', sidebarShow: val }))}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
-        
+        <div className="logo-team-container">
+          <div className="img"></div>
+        </div>
       </CSidebarBrand>
       <CSidebarNav>
 
@@ -42,7 +45,7 @@ const TheSidebar = () => {
           }}
         />
       </CSidebarNav>
-      <CSidebarMinimizer className="c-d-md-down-none"/>
+      <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>
   )
 }

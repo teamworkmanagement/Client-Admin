@@ -203,7 +203,7 @@ function UserFeedbackPage(props) {
     },
     { key: "content", label: "Nội dung góp ý", _style: { width: "40%" } },
     { key: "createdDate", label: "Ngày đăng", _style: { width: "5%" } },
-    { key: "owner", label: "Người đăng", _style: { width: "20%" } },
+    { key: "owner", label: "Người phản hồi", _style: { width: "20%" } },
     { key: "status", label: "Trạng thái", _style: { width: "15%" } },
     {
       key: "show_details",
@@ -250,7 +250,7 @@ function UserFeedbackPage(props) {
         feedbacks.push(clonedFeedbacks[i].id);
       }
     }
-    
+
     setSelectedFeedbackIndexs([]); //confirm xong bỏ chọn hết
     feedbackApi.makeSeen({
       feedbackIds: feedbacks
@@ -402,7 +402,7 @@ function UserFeedbackPage(props) {
                     <CCardBody>
                       <p className="text-muted">Nội dung phản hồi:</p>
                       <div className="text-muted"> {item.content}</div>
-                      <div className="group-btn">
+                      <div className="mt-2  group-btn">
                         <div className="validate-group">
                           {item.status === 0 && <CButton
                             size="sm"

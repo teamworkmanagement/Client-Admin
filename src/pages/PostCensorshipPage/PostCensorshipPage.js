@@ -796,13 +796,13 @@ const PostCensorshipPage = () => {
                       <p className="text-muted">Nội dung bài viết:</p>
                       <div className="text-muted"> {item.content}</div>
                       <div className="group-btn">
-                        <div className="validate-group">
+                        <div className="mt-2 validate-group">
                           <CButton
                             size="sm"
                             color="success"
                             onClick={() => confirmPost(item, index, true)}
                           >
-                            Duyệt hợp lệ
+                            Hợp lệ
                           </CButton>
                           <CButton
                             onClick={() => confirmPost(item, index, false)}
