@@ -18,7 +18,7 @@ import {
 import { rgbToHex } from "@coreui/utils";
 import { DocsLink } from "src/reusable";
 import "./PostCensorshipPage.scss";
-import ImageGallery from 'react-image-gallery';
+import ImageGallery from "react-image-gallery";
 import postReportApi from "src/api/postReportApi";
 import moment from "moment";
 import "moment/locale/vi";
@@ -443,16 +443,14 @@ const PostCensorshipPage = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-
   useEffect(() => {
-    postReportApi.getReports()
-      .then(res => {
+    postReportApi
+      .getReports()
+      .then((res) => {
         setPostsData(res.data);
       })
-      .catch(err => {
-
-      })
-  }, [])
+      .catch((err) => {});
+  }, []);
 
   useEffect(() => {
     var clonedSelecteds = [];
@@ -472,26 +470,24 @@ const PostCensorshipPage = () => {
       status: value ? "1" : "2",
     };
 
-
     if (value) {
-      postReportApi.acceptPosts({
-        postIds: [item.postId]
-      }).then(res => {
-        setPostsData(clonedFeedbacks);
-      })
-        .catch(err => {
-
+      postReportApi
+        .acceptPosts({
+          postIds: [item.postId],
         })
-    }
-    else {
-      postReportApi.denyPosts({
-        postIds: [item.postId]
-      }).then(res => {
-        setPostsData(clonedFeedbacks);
-      })
-        .catch(err => {
-
+        .then((res) => {
+          setPostsData(clonedFeedbacks);
         })
+        .catch((err) => {});
+    } else {
+      postReportApi
+        .denyPosts({
+          postIds: [item.postId],
+        })
+        .then((res) => {
+          setPostsData(clonedFeedbacks);
+        })
+        .catch((err) => {});
     }
   };
 
@@ -503,15 +499,14 @@ const PostCensorshipPage = () => {
       }
     }
 
-    postReportApi.removeReports({
-      reportIds: [item.id],
-    })
-      .then(res => {
+    postReportApi
+      .removeReports({
+        reportIds: [item.id],
+      })
+      .then((res) => {
         setPostsData(clonedFeedbacks);
       })
-      .catch(err => {
-
-      })
+      .catch((err) => {});
     console.log(postsData);
   };
 
@@ -579,26 +574,23 @@ const PostCensorshipPage = () => {
     }
 
     if (value) {
-      postReportApi.acceptPosts({
-        postIds: posts,
-      })
-        .then(res => {
+      postReportApi
+        .acceptPosts({
+          postIds: posts,
+        })
+        .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch(err => {
-
+        .catch((err) => {});
+    } else {
+      postReportApi
+        .denyPosts({
+          postIds: posts,
         })
-    }
-    else {
-      postReportApi.denyPosts({
-        postIds: posts,
-      })
-        .then(res => {
+        .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch(err => {
-
-        })
+        .catch((err) => {});
     }
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
@@ -613,15 +605,14 @@ const PostCensorshipPage = () => {
       }
     }
 
-    postReportApi.removeReports({
-      reportIds: reports,
-    })
-      .then(res => {
+    postReportApi
+      .removeReports({
+        reportIds: reports,
+      })
+      .then((res) => {
         setPostsData(clonedFeedbacks);
       })
-      .catch(err => {
-
-      })
+      .catch((err) => {});
 
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
@@ -649,23 +640,22 @@ const PostCensorshipPage = () => {
     },
   ];
 
-
   const [images, setImages] = useState([]);
   const viewImages = (item) => {
-    console.log('clicked')
+    console.log("clicked");
     setShowModal(true);
     setImages(item.images);
-  }
+  };
 
   const onCLoseModal = () => {
     setShowModal(false);
     setImages([]);
-  }
+  };
   return (
     <div className="post-censorship-page">
       <CCard>
         <CCardHeader>
-          <h4>Danh sách bài viết được báo cáo</h4>
+          <h4>Danh sách bài viết bị báo cáo</h4>
         </CCardHeader>
         <CCardBody>
           <div className="button-selection-group">
@@ -737,17 +727,20 @@ const PostCensorshipPage = () => {
                 );
               },
               createdDate: (item) => {
-                return <td>{moment(item.createdDate).format('DD/MM/YYYY HH:mm:ss')}</td>;
+                return (
+                  <td>
+                    {moment(item.createdDate).format("DD/MM/YYYY HH:mm:ss")}
+                  </td>
+                );
               },
 
               owner: (item) => {
                 return (
                   <td className="owner-cell">
                     <div className="owner-cell-content">
-                      {item.userAvatar &&
-                        item.userAvatar !== "" && (
-                          <img alt="" src={item.userAvatar} />
-                        )}
+                      {item.userAvatar && item.userAvatar !== "" && (
+                        <img alt="" src={item.userAvatar} />
+                      )}
 
                       {item.userName}
                     </div>
@@ -757,11 +750,9 @@ const PostCensorshipPage = () => {
               rpcount: (item) => {
                 return (
                   <td>
-                    <div>
-                      {item.reportCounts}
-                    </div>
+                    <div>{item.reportCounts}</div>
                   </td>
-                )
+                );
               },
               status: (item) => {
                 return (
@@ -812,14 +803,16 @@ const PostCensorshipPage = () => {
                           >
                             Không hợp lệ
                           </CButton>
-                          {item.images?.length > 0 && <CButton
-                            onClick={() => viewImages(item)}
-                            size="sm"
-                            color="info"
-                            className="ml-1"
-                          >
-                            Xem hình ảnh
-                          </CButton>}
+                          {item.images?.length > 0 && (
+                            <CButton
+                              onClick={() => viewImages(item)}
+                              size="sm"
+                              color="info"
+                              className="ml-1"
+                            >
+                              Xem hình ảnh
+                            </CButton>
+                          )}
                         </div>
                         <CButton
                           size="sm"
@@ -838,11 +831,13 @@ const PostCensorshipPage = () => {
         </CCardBody>
       </CCard>
 
-      <CModal show={showModal} onClose={onCLoseModal}
+      <CModal
+        show={showModal}
+        onClose={onCLoseModal}
         size="lg"
-        closeOnBackdrop="false">
-        <CModalHeader closeButton>
-        </CModalHeader>
+        closeOnBackdrop="false"
+      >
+        <CModalHeader closeButton></CModalHeader>
 
         <CModalBody>
           <ImageGallery showPlayButton={false} items={images} />;

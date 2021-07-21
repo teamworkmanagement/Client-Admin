@@ -21,7 +21,7 @@ const _nav = [
   {
     _tag: "CSidebarNavItem",
     name: "Kiểm duyệt bình luận",
-    to: "/postcensorship",
+    to: "/commentcensorship",
     icon: "cil-speech",
   },
   {

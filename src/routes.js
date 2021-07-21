@@ -1,4 +1,5 @@
 import React from "react";
+import CommentCensorshipPage from "./pages/CommentCensorshipPage/CommentCensorshipPage.js";
 import PostCensorshipPage from "./pages/PostCensorshipPage/PostCensorshipPage.js";
 import PushNotificationPage from "./pages/PushNotificationPage/PushNotificationPage.js";
 import UserCensorshipPage from "./pages/UserCensorshipPage/UserCensorshipPage.js";
@@ -71,6 +72,12 @@ const routes = [
     path: "/postcensorship",
     name: "Kiểm duyệt bài viết",
     component: PostCensorshipPage,
+    exact: true,
+  },
+  {
+    path: "/commentcensorship",
+    name: "Kiểm duyệt bình luận",
+    component: CommentCensorshipPage,
     exact: true,
   },
   {
