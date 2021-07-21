@@ -1,123 +1,111 @@
-import React, { useEffect, useState, createRef } from "react";
-import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 import {
-  CRow,
-  CCol,
   CCard,
   CCardHeader,
   CCardBody,
   CDataTable,
-  CBadge,
   CButton,
   CCollapse,
   CInputCheckbox,
-  CModal,
-  CModalHeader,
-  CModalBody,
 } from "@coreui/react";
-import { rgbToHex } from "@coreui/utils";
-import { DocsLink } from "src/reusable";
 import "./CommentCensorshipPage.scss";
-import ImageGallery from "react-image-gallery";
-import postReportApi from "src/api/postReportApi";
 import moment from "moment";
 import "moment/locale/vi";
+import commentReportApi from "src/api/commentReportApi";
+import Tag from "src/Tag/Tag";
 
 moment.locale("vi");
 
 const CommentCensorshipPage = () => {
-  const [postsData, setPostsData] = useState([]);
-  const [selectedPostIndexs, setSelectedPostIndexs] = useState([]);
-
-  const [showModal, setShowModal] = useState(false);
+  const [commentsData, setCommentsData] = useState([]);
+  const [selectedCommentIndexs, setSelectedCommentIndexs] = useState([]);
 
   useEffect(() => {
-    postReportApi
+    commentReportApi
       .getReports()
       .then((res) => {
-        setPostsData(res.data);
+        setCommentsData(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, []);
 
   useEffect(() => {
-    var clonedSelecteds = [];
-    for (let i = 0; i < postsData.length; i++) {
-      if (postsData[i].isSelected) {
+    let clonedSelecteds = [];
+    for (let i = 0; i < commentsData.length; i++) {
+      if (commentsData[i].isSelected) {
         clonedSelecteds.push(i);
       }
     }
-    setSelectedPostIndexs(clonedSelecteds);
+    setSelectedCommentIndexs(clonedSelecteds);
     console.log(clonedSelecteds);
-  }, [postsData]);
+  }, [commentsData]);
 
-  const confirmPost = (item, index, value) => {
-    var clonedFeedbacks = [...postsData];
-    clonedFeedbacks[index] = {
-      ...clonedFeedbacks[index],
-      status: value ? "1" : "2",
-    };
+  const confirmComment = (item, index, value) => {
+    let clonedComments = [...commentsData];
+    clonedComments.splice(index, 1);
 
     if (value) {
-      postReportApi
-        .acceptPosts({
-          postIds: [item.postId],
+      commentReportApi
+        .acceptComments({
+          commentIds: [item.commentId],
         })
         .then((res) => {
-          setPostsData(clonedFeedbacks);
+          setCommentsData(clonedComments)
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
-      postReportApi
-        .denyPosts({
-          postIds: [item.postId],
+      commentReportApi
+        .denyComments({
+          commentIds: [item.commentId],
         })
         .then((res) => {
-          setPostsData(clonedFeedbacks);
+          setCommentsData(clonedComments)
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
+
+    //setCommentsData(clonedComments)
   };
 
   const removeItem = (item, index) => {
-    var clonedFeedbacks = [];
-    for (let i = 0; i < postsData.length; i++) {
+    let clonedComments = [];
+    for (let i = 0; i < commentsData.length; i++) {
       if (i !== index) {
-        clonedFeedbacks.push(postsData[i]);
+        clonedComments.push(commentsData[i]);
       }
     }
 
-    postReportApi
+    commentReportApi
       .removeReports({
-        reportIds: [item.id],
+        commentIds: [item.commentId],
       })
       .then((res) => {
-        setPostsData(clonedFeedbacks);
+        setCommentsData(clonedComments);
       })
-      .catch((err) => {});
-    console.log(postsData);
+      .catch((err) => { });
+
+    //setCommentsData(clonedComments);
   };
 
   const toggleDetails = (index) => {
-    var clonedFeedbacks = [...postsData];
-    const isShown = clonedFeedbacks[index].isShown;
-    clonedFeedbacks[index] = {
-      ...clonedFeedbacks[index],
+    let clonedComments = [...commentsData];
+    const isShown = clonedComments[index].isShown;
+    clonedComments[index] = {
+      ...clonedComments[index],
       isShown: !isShown,
     };
-    setPostsData(clonedFeedbacks);
+    setCommentsData(clonedComments);
   };
 
   const onSelectRow = (index) => {
     //debugger;
-    var clonedFeedbacks = [...postsData];
-    const isSelected = clonedFeedbacks[index].isSelected;
-    clonedFeedbacks[index] = {
-      ...clonedFeedbacks[index],
+    let clonedComments = [...commentsData];
+    const isSelected = clonedComments[index].isSelected;
+    clonedComments[index] = {
+      ...clonedComments[index],
       isSelected: !isSelected,
     };
-    setPostsData(clonedFeedbacks);
-    console.log(postsData);
+    setCommentsData(clonedComments);
   };
 
   function truncate(str, n = 150) {
@@ -125,62 +113,65 @@ const CommentCensorshipPage = () => {
   }
 
   function confirmAll(value) {
-    let posts = [];
-    var clonedFeedbacks = [...postsData];
-    for (let i = 0; i < postsData.length; i++) {
-      if (selectedPostIndexs.indexOf(i) >= 0) {
-        clonedFeedbacks[i] = {
-          ...clonedFeedbacks[i],
-          status: value ? "1" : "2", //trạng thái confirm
-          isSelected: false,
-        };
-
-        posts.push(clonedFeedbacks[i].postId);
+    let comments = [];
+    let clonedComments = [];
+    for (let i = 0; i < commentsData.length; i++) {
+      if (selectedCommentIndexs.indexOf(i) < 0) {
+        clonedComments.push(commentsData[i]);
+      }
+      else {
+        comments.push(commentsData[i].commentId);
       }
     }
 
     if (value) {
-      postReportApi
-        .acceptPosts({
-          postIds: posts,
+      commentReportApi
+        .acceptComments({
+          commentIds: comments,
         })
         .then((res) => {
-          setPostsData(clonedFeedbacks);
+          setCommentsData(clonedComments);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
-      postReportApi
-        .denyPosts({
-          postIds: posts,
+      commentReportApi
+        .denyComments({
+          commentIds: comments,
         })
         .then((res) => {
-          setPostsData(clonedFeedbacks);
+          setCommentsData(clonedComments);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
-    setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
+
+    //setCommentsData(clonedComments);
+    setSelectedCommentIndexs([]); //confirm xong bỏ chọn hết
   }
 
   function removeAll() {
-    let reports = [];
-    var clonedFeedbacks = [];
-    for (let i = 0; i < postsData.length; i++) {
-      if (selectedPostIndexs.indexOf(i) < 0) {
-        clonedFeedbacks.push(postsData[i]);
-        reports.push(postsData[i].id);
+    let comments = [];
+    let clonedComments = [];
+    for (let i = 0; i < commentsData.length; i++) {
+      if (selectedCommentIndexs.indexOf(i) < 0) {
+        clonedComments.push(commentsData[i]);
+      }
+      else {
+        comments.push(commentsData[i].commentId);
       }
     }
 
-    postReportApi
+    commentReportApi
       .removeReports({
-        reportIds: reports,
+        commentIds: comments,
       })
       .then((res) => {
-        setPostsData(clonedFeedbacks);
+        setCommentsData(clonedComments);
       })
-      .catch((err) => {});
+      .catch((err) => { });
 
-    setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
+    //setCommentsData(clonedComments);
+
+    setSelectedCommentIndexs([]); //confirm xong bỏ chọn hết
   }
 
   const fields = [
@@ -205,17 +196,26 @@ const CommentCensorshipPage = () => {
     },
   ];
 
-  const [images, setImages] = useState([]);
-  const viewImages = (item) => {
-    console.log("clicked");
-    setShowModal(true);
-    setImages(item.images);
+  const mapStringToJsx = (str) => {
+    const myArr = str.split("<@tag>");
+    return myArr.map((ele, index) => {
+      if (index % 2 === 0) {
+        return (
+          <div
+            className="normal-text-comment"
+            dangerouslySetInnerHTML={{ __html: ele }}
+          ></div>
+        );
+      } else {
+        return (
+          <Tag
+            userId={ele}
+          />
+        );
+      }
+    });
   };
 
-  const onCLoseModal = () => {
-    setShowModal(false);
-    setImages([]);
-  };
   return (
     <div className="post-censorship-page">
       <CCard>
@@ -225,7 +225,7 @@ const CommentCensorshipPage = () => {
         <CCardBody>
           <div className="button-selection-group">
             <CButton
-              disabled={selectedPostIndexs.length === 0}
+              disabled={selectedCommentIndexs.length === 0}
               className="btn-valid mr-3"
               size="lg"
               color="success"
@@ -234,7 +234,7 @@ const CommentCensorshipPage = () => {
               Duyệt tất cả đang chọn
             </CButton>
             <CButton
-              disabled={selectedPostIndexs.length === 0}
+              disabled={selectedCommentIndexs.length === 0}
               className="btn-valid mr-3"
               size="lg"
               color="danger"
@@ -243,7 +243,7 @@ const CommentCensorshipPage = () => {
               Chặn tất cả đang chọn
             </CButton>
             <CButton
-              disabled={selectedPostIndexs.length === 0}
+              disabled={selectedCommentIndexs.length === 0}
               className="btn-remove"
               size="lg"
               color="info"
@@ -253,7 +253,7 @@ const CommentCensorshipPage = () => {
             </CButton>
           </div>
           <CDataTable
-            items={postsData}
+            items={commentsData}
             fields={fields}
             columnFilter
             itemsPerPageSelect={{
@@ -287,7 +287,7 @@ const CommentCensorshipPage = () => {
               content: (item) => {
                 return (
                   <td>
-                    <div className="">{truncate(item.content)}</div>
+                    <div className="">{mapStringToJsx(item.content)}</div>
                   </td>
                 );
               },
@@ -341,34 +341,24 @@ const CommentCensorshipPage = () => {
                   <CCollapse show={item.isShown}>
                     <CCardBody>
                       <p className="text-muted">Nội dung bình luận:</p>
-                      <div className="text-muted"> {item.content}</div>
+                      <div className="text-muted"> {mapStringToJsx(item.content)}</div>
                       <div className="group-btn">
                         <div className="mt-2 validate-group">
                           <CButton
                             size="sm"
                             color="success"
-                            onClick={() => confirmPost(item, index, true)}
+                            onClick={() => confirmComment(item, index, true)}
                           >
                             Hợp lệ
                           </CButton>
                           <CButton
-                            onClick={() => confirmPost(item, index, false)}
+                            onClick={() => confirmComment(item, index, false)}
                             size="sm"
                             color="danger"
                             className="ml-1"
                           >
                             Không hợp lệ
                           </CButton>
-                          {item.images?.length > 0 && (
-                            <CButton
-                              onClick={() => viewImages(item)}
-                              size="sm"
-                              color="info"
-                              className="ml-1"
-                            >
-                              Xem hình ảnh
-                            </CButton>
-                          )}
                         </div>
                         <CButton
                           size="sm"
@@ -386,19 +376,6 @@ const CommentCensorshipPage = () => {
           />
         </CCardBody>
       </CCard>
-
-      <CModal
-        show={showModal}
-        onClose={onCLoseModal}
-        size="lg"
-        closeOnBackdrop="false"
-      >
-        <CModalHeader closeButton></CModalHeader>
-
-        <CModalBody>
-          <ImageGallery showPlayButton={false} items={images} />;
-        </CModalBody>
-      </CModal>
     </div>
   );
 };

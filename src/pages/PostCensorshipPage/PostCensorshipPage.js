@@ -1,8 +1,5 @@
-import React, { useEffect, useState, createRef } from "react";
-import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 import {
-  CRow,
-  CCol,
   CCard,
   CCardHeader,
   CCardBody,
@@ -15,13 +12,12 @@ import {
   CModalHeader,
   CModalBody,
 } from "@coreui/react";
-import { rgbToHex } from "@coreui/utils";
-import { DocsLink } from "src/reusable";
 import "./PostCensorshipPage.scss";
 import ImageGallery from "react-image-gallery";
 import postReportApi from "src/api/postReportApi";
 import moment from "moment";
 import "moment/locale/vi";
+import Tag from "src/Tag/Tag";
 
 moment.locale("vi");
 
@@ -453,7 +449,7 @@ const PostCensorshipPage = () => {
   }, []);
 
   useEffect(() => {
-    var clonedSelecteds = [];
+    let clonedSelecteds = [];
     for (let i = 0; i < postsData.length; i++) {
       if (postsData[i].isSelected) {
         clonedSelecteds.push(i);
@@ -464,7 +460,7 @@ const PostCensorshipPage = () => {
   }, [postsData]);
 
   const confirmPost = (item, index, value) => {
-    var clonedFeedbacks = [...postsData];
+    let clonedFeedbacks = [...postsData];
     clonedFeedbacks.splice(index, 1);
 
     if (value) {
@@ -489,7 +485,7 @@ const PostCensorshipPage = () => {
   };
 
   const removeItem = (item, index) => {
-    var clonedFeedbacks = [];
+    let clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (i !== index) {
         clonedFeedbacks.push(postsData[i]);
@@ -508,7 +504,7 @@ const PostCensorshipPage = () => {
   };
 
   const toggleDetails = (index) => {
-    var clonedFeedbacks = [...postsData];
+    let clonedFeedbacks = [...postsData];
     const isShown = clonedFeedbacks[index].isShown;
     clonedFeedbacks[index] = {
       ...clonedFeedbacks[index],
@@ -519,7 +515,7 @@ const PostCensorshipPage = () => {
 
   const onSelectRow = (index) => {
     //debugger;
-    var clonedFeedbacks = [...postsData];
+    let clonedFeedbacks = [...postsData];
     const isSelected = clonedFeedbacks[index].isSelected;
     clonedFeedbacks[index] = {
       ...clonedFeedbacks[index],
@@ -535,7 +531,7 @@ const PostCensorshipPage = () => {
 
   function confirmAll(value) {
     let posts = [];
-    var clonedFeedbacks = [];
+    let clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (selectedPostIndexs.indexOf(i) < 0) {
         clonedFeedbacks.push(postsData[i]);
@@ -570,7 +566,7 @@ const PostCensorshipPage = () => {
 
   function removeAll() {
     let posts = [];
-    var clonedFeedbacks = [];
+    let clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (selectedPostIndexs.indexOf(i) < 0) {
         clonedFeedbacks.push(postsData[i]);
@@ -624,6 +620,26 @@ const PostCensorshipPage = () => {
   const onCLoseModal = () => {
     setShowModal(false);
     setImages([]);
+  };
+
+  const mapStringToJsx = (str) => {
+    const myArr = str.split("<@tag>");
+    return myArr.map((ele, index) => {
+      if (index % 2 === 0) {
+        return (
+          <div
+            className="normal-text-comment"
+            dangerouslySetInnerHTML={{ __html: ele }}
+          ></div>
+        );
+      } else {
+        return (
+          <Tag
+            userId={ele}
+          />
+        );
+      }
+    });
   };
   return (
     <div className="post-censorship-page">
@@ -696,7 +712,7 @@ const PostCensorshipPage = () => {
               content: (item) => {
                 return (
                   <td>
-                    <div className="">{truncate(item.content)}</div>
+                    <div className="">{mapStringToJsx(item.content)}</div>
                   </td>
                 );
               },
@@ -750,7 +766,7 @@ const PostCensorshipPage = () => {
                   <CCollapse show={item.isShown}>
                     <CCardBody>
                       <p className="text-muted">Nội dung bài viết:</p>
-                      <div className="text-muted"> {item.content}</div>
+                      <div className="text-muted"> {mapStringToJsx(item.content)}</div>
                       <div className="group-btn">
                         <div className="mt-2 validate-group">
                           <CButton
