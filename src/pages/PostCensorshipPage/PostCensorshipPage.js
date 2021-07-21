@@ -449,7 +449,7 @@ const PostCensorshipPage = () => {
       .then((res) => {
         setPostsData(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, []);
 
   useEffect(() => {
@@ -465,10 +465,7 @@ const PostCensorshipPage = () => {
 
   const confirmPost = (item, index, value) => {
     var clonedFeedbacks = [...postsData];
-    clonedFeedbacks[index] = {
-      ...clonedFeedbacks[index],
-      status: value ? "1" : "2",
-    };
+    clonedFeedbacks.splice(index, 1);
 
     if (value) {
       postReportApi
@@ -478,7 +475,7 @@ const PostCensorshipPage = () => {
         .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
       postReportApi
         .denyPosts({
@@ -487,7 +484,7 @@ const PostCensorshipPage = () => {
         .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
   };
 
@@ -501,13 +498,13 @@ const PostCensorshipPage = () => {
 
     postReportApi
       .removeReports({
-        reportIds: [item.id],
+        postIds: [item.postId],
       })
       .then((res) => {
         setPostsData(clonedFeedbacks);
       })
-      .catch((err) => {});
-    console.log(postsData);
+      .catch((err) => { });
+
   };
 
   const toggleDetails = (index) => {
@@ -536,40 +533,15 @@ const PostCensorshipPage = () => {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
 
-  const getBadge = (status) => {
-    switch (status) {
-      case "1":
-        return "success";
-      case "0":
-        return "warning";
-      default:
-        return "danger";
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case "1":
-        return "Hợp lệ";
-      case "0":
-        return "Chờ duyệt";
-      default:
-        return "Đã chặn";
-    }
-  };
-
   function confirmAll(value) {
     let posts = [];
-    var clonedFeedbacks = [...postsData];
+    var clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
-      if (selectedPostIndexs.indexOf(i) >= 0) {
-        clonedFeedbacks[i] = {
-          ...clonedFeedbacks[i],
-          status: value ? "1" : "2", //trạng thái confirm
-          isSelected: false,
-        };
-
-        posts.push(clonedFeedbacks[i].postId);
+      if (selectedPostIndexs.indexOf(i) < 0) {
+        clonedFeedbacks.push(postsData[i]);
+      }
+      else {
+        posts.push(postsData[i].postId);
       }
     }
 
@@ -581,7 +553,7 @@ const PostCensorshipPage = () => {
         .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
       postReportApi
         .denyPosts({
@@ -590,29 +562,32 @@ const PostCensorshipPage = () => {
         .then((res) => {
           setPostsData(clonedFeedbacks);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
+
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
 
   function removeAll() {
-    let reports = [];
+    let posts = [];
     var clonedFeedbacks = [];
     for (let i = 0; i < postsData.length; i++) {
       if (selectedPostIndexs.indexOf(i) < 0) {
         clonedFeedbacks.push(postsData[i]);
-        reports.push(postsData[i].id);
+      }
+      else {
+        posts.push(postsData[i].postId);
       }
     }
 
     postReportApi
       .removeReports({
-        reportIds: reports,
+        postIds: posts,
       })
       .then((res) => {
         setPostsData(clonedFeedbacks);
       })
-      .catch((err) => {});
+      .catch((err) => { });
 
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
@@ -630,7 +605,6 @@ const PostCensorshipPage = () => {
 
     { key: "owner", label: "Người đăng", _style: { width: "20%" } },
     { key: "rpcount", label: "Số báo cáo", _style: { width: "10%" } },
-    { key: "status", label: "Trạng thái", _style: { width: "20%" } },
     {
       key: "show_details",
       label: "",
@@ -751,15 +725,6 @@ const PostCensorshipPage = () => {
                 return (
                   <td>
                     <div>{item.reportCounts}</div>
-                  </td>
-                );
-              },
-              status: (item) => {
-                return (
-                  <td className="status-cell">
-                    <CBadge color={getBadge(item.status)}>
-                      {getStatusText(item.status)}
-                    </CBadge>
                   </td>
                 );
               },

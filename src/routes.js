@@ -2,7 +2,6 @@ import React from "react";
 import CommentCensorshipPage from "./pages/CommentCensorshipPage/CommentCensorshipPage.js";
 import PostCensorshipPage from "./pages/PostCensorshipPage/PostCensorshipPage.js";
 import PushNotificationPage from "./pages/PushNotificationPage/PushNotificationPage.js";
-import UserCensorshipPage from "./pages/UserCensorshipPage/UserCensorshipPage.js";
 import UserFeedbackPage from "./pages/UserFeedbackPage/UserFeedbackPage.js";
 
 const Toaster = React.lazy(() =>

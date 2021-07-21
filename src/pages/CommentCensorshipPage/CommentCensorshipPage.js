@@ -124,28 +124,6 @@ const CommentCensorshipPage = () => {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
 
-  const getBadge = (status) => {
-    switch (status) {
-      case "1":
-        return "success";
-      case "0":
-        return "warning";
-      default:
-        return "danger";
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case "1":
-        return "Hợp lệ";
-      case "0":
-        return "Chờ duyệt";
-      default:
-        return "Đã chặn";
-    }
-  };
-
   function confirmAll(value) {
     let posts = [];
     var clonedFeedbacks = [...postsData];
@@ -218,7 +196,6 @@ const CommentCensorshipPage = () => {
 
     { key: "owner", label: "Người đăng", _style: { width: "20%" } },
     { key: "rpcount", label: "Số báo cáo", _style: { width: "10%" } },
-    { key: "status", label: "Trạng thái", _style: { width: "20%" } },
     {
       key: "show_details",
       label: "",
@@ -339,15 +316,6 @@ const CommentCensorshipPage = () => {
                 return (
                   <td>
                     <div>{item.reportCounts}</div>
-                  </td>
-                );
-              },
-              status: (item) => {
-                return (
-                  <td className="status-cell">
-                    <CBadge color={getBadge(item.status)}>
-                      {getStatusText(item.status)}
-                    </CBadge>
                   </td>
                 );
               },
