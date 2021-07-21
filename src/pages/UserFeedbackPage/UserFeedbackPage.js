@@ -14,108 +14,12 @@ import {
 import feedbackApi from "src/api/feedbackApi";
 import moment from "moment";
 import "moment/locale/vi";
+import { toast } from "react-toastify";
+import CustomToast from "src/CustomToast/CustomToast";
 
 moment.locale("vi");
 
 function UserFeedbackPage(props) {
-  const feedbacksDataInit = [
-    {
-      id: 1,
-      content:
-        "Duis cursus imperdiet nisi tempus finibus. Morbi varius, diam sit amet fermentum ullamcorper, turpis diam maximus sem, vitae blandit nisi mi a odio. Curabitur molestie, libero at efficitur convallis, quam tortor imperdiet mi, non aliquet diam diam vitae purus. Proin aliquet mollis iaculis. Sed dapibus vehicula magna, non aliquet felis semper vel. Fusce eu urna enim. ",
-      userName: "Ngọc Huy",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-1.jpg",
-      createdDate: "20/03/2021",
-      status: 0,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 2,
-      content:
-        "Pellentesque quis nibh ac quam condimentum faucibus. Ut cursus efficitur magna eget interdum. Integer vel lacus ante. In volutpat tristique luctus. ",
-      userName: "Thanh Duyên",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-2.jpg",
-      createdDate: "20/03/2021",
-      status: 0,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 3,
-      content:
-        "Praesent sit amet sem eget quam tincidunt feugiat ac sit amet elit. Duis sed urna rutrum, finibus nunc eget, tempus arcu. Nulla in erat diam. Curabitur ipsum neque, aliquet eget euismod id, porta et lacus. Curabitur nec dui id lacus accumsan bibendum.",
-      userName: "Hồng Khoa",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-3.jpg",
-      createdDate: "20/03/2021",
-      status: 1,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 4,
-      content:
-        "Maecenas id lacus egestas, luctus tortor a, sodales justo. Vivamus tristique ex vel nisi rutrum, vitae lacinia lorem fermentum. Proin dolor sapien, consequat a elit id, mattis lacinia dui.",
-      userName: "Popo",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-4.jpg",
-      createdDate: "20/03/2021",
-      status: 1,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 5,
-      content:
-        "Donec quis turpis id felis ullamcorper consectetur. Curabitur blandit nisl vel velit varius, non gravida massa pulvinar. Vivamus lacinia augue nec dictum suscipit. Cras purus augue, placerat eget dignissim eu, placerat et metus. Nunc risus mi, laoreet id nibh sed, lacinia luctus nulla.",
-      userName: "Anthony",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-5.jpg",
-      createdDate: "16/08/2021",
-      status: 0,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 6,
-      content:
-        "Sed ultrices lorem metus, et vulputate nisl pellentesque id. Mauris placerat, lorem id volutpat dapibus, purus lorem finibus erat, ut convallis ligula ex in quam.",
-      userName: "Khá Bảnh",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-6.jpg",
-      createdDate: "22/12/2020",
-      status: 1,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 7,
-      content:
-        "Suspendisse quis purus mi. Ut sollicitudin viverra ipsum faucibus scelerisque. Vestibulum eros lectus, fermentum at accumsan at, ullamcorper nec massa. Duis interdum laoreet elit, quis lobortis lorem rutrum dapibus. Ut condimentum lacus id libero finibus viverra. Aenean et metus consectetur, lobortis massa et, porta eros.",
-      userName: "Huấn Hoa Hồng",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-7.jpg",
-      createdDate: "11/04/2021",
-      status: 1,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-    {
-      id: 8,
-      content:
-        "Maecenas id lacus egestas, luctus tortor a, sodales justo. Vivamus tristique ex vel nisi rutrum, vitae lacinia lorem fermentum. Proin dolor sapien, consequat a elit id, mattis lacinia dui. Donec quis turpis id felis ullamcorper consectetur. Curabitur blandit nisl vel velit varius, non gravida massa pulvinar. Vivamus lacinia augue nec dictum suscipit. Cras purus augue, placerat eget dignissim eu, placerat et metus. Nunc risus mi, laoreet id nibh sed, lacinia luctus nulla. Sed ultrices lorem metus, et vulputate nisl pellentesque id. Mauris placerat, lorem id volutpat dapibus, purus lorem finibus erat, ut convallis ligula ex in quam.",
-      userName: "Trốn cha trốn mẹ",
-      userAvatar: "https://emilus.themenate.net/img/avatars/thumb-8.jpg",
-      createdDate: "20/03/2021",
-      status: 0,
-      //props for render
-      isSelected: false,
-      isShown: false,
-    },
-  ];
   const [feedbacksData, setFeedbacksData] = useState([]);
   const [selectedFeedbackIndexs, setSelectedFeedbackIndexs] = useState([]);
 
@@ -127,7 +31,8 @@ function UserFeedbackPage(props) {
       .catch(err => {
 
       })
-  }, [])
+  }, []);
+
   useEffect(() => {
     var clonedSelecteds = [];
     for (let i = 0; i < feedbacksData.length; i++) {
@@ -138,19 +43,41 @@ function UserFeedbackPage(props) {
     setSelectedFeedbackIndexs(clonedSelecteds);
   }, [feedbacksData]);
 
+  const showError = () => {
+    toast(
+      <CustomToast
+        type="error"
+        title="Lỗi"
+        message="Đã có lỗi xảy ra!"
+      />
+    );
+  }
+
+  const showSuccess = () => {
+    toast(
+      <CustomToast
+        type="success"
+        title="Thành công"
+        message="Đã cập nhật thành công!"
+      />
+    );
+  }
+
+
   const confirmPost = (item, index) => {
     var clonedFeedbacks = [...feedbacksData];
     clonedFeedbacks[index] = {
       ...clonedFeedbacks[index],
       status: 1,
     };
-    setFeedbacksData(clonedFeedbacks);
+
     feedbackApi.makeSeen({
       feedbackIds: [item.id]
     }).then(res => {
-
+      showSuccess();
+      setFeedbacksData(clonedFeedbacks);
     }).catch(err => {
-
+      showError();
     })
   };
 
@@ -161,14 +88,15 @@ function UserFeedbackPage(props) {
         clonedFeedbacks.push(feedbacksData[i]);
       }
     }
-    setFeedbacksData(clonedFeedbacks);
+
 
     feedbackApi.remove({
       feedbackIds: [item.id]
     }).then(res => {
-
+      showSuccess();
+      setFeedbacksData(clonedFeedbacks);
     }).catch(err => {
-
+      showError();
     })
   };
 
@@ -255,9 +183,10 @@ function UserFeedbackPage(props) {
     feedbackApi.makeSeen({
       feedbackIds: feedbacks
     }).then(res => {
+      showSuccess();
       setFeedbacksData(clonedFeedbacks);
     }).catch(err => {
-
+      showError();
     })
   }
 
@@ -274,15 +203,16 @@ function UserFeedbackPage(props) {
         feedbacks.push(feedbacksData[i].id);
       }
     }
-    setFeedbacksData(clonedFeedbacks);
+
     setSelectedFeedbackIndexs([]); //confirm xong bỏ chọn hết
 
     feedbackApi.remove({
       feedbackIds: feedbacks,
     }).then(res => {
-
+      showSuccess();
+      setFeedbacksData(clonedFeedbacks);
     }).catch(err => {
-
+      showError();
     })
   }
 

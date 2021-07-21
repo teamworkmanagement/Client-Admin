@@ -13,6 +13,8 @@ import moment from "moment";
 import "moment/locale/vi";
 import commentReportApi from "src/api/commentReportApi";
 import Tag from "src/Tag/Tag";
+import { toast } from "react-toastify";
+import CustomToast from "src/CustomToast/CustomToast";
 
 moment.locale("vi");
 
@@ -40,6 +42,26 @@ const CommentCensorshipPage = () => {
     console.log(clonedSelecteds);
   }, [commentsData]);
 
+  const showError = () => {
+    toast(
+      <CustomToast
+        type="error"
+        title="Lỗi"
+        message="Đã có lỗi xảy ra!"
+      />
+    );
+  }
+
+  const showSuccess = () => {
+    toast(
+      <CustomToast
+        type="success"
+        title="Thành công"
+        message="Đã cập nhật thành công!"
+      />
+    );
+  }
+
   const confirmComment = (item, index, value) => {
     let clonedComments = [...commentsData];
     clonedComments.splice(index, 1);
@@ -50,18 +72,24 @@ const CommentCensorshipPage = () => {
           commentIds: [item.commentId],
         })
         .then((res) => {
-          setCommentsData(clonedComments)
+          setCommentsData(clonedComments);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     } else {
       commentReportApi
         .denyComments({
           commentIds: [item.commentId],
         })
         .then((res) => {
-          setCommentsData(clonedComments)
+          setCommentsData(clonedComments);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     }
 
     //setCommentsData(clonedComments)
@@ -81,8 +109,11 @@ const CommentCensorshipPage = () => {
       })
       .then((res) => {
         setCommentsData(clonedComments);
+        showSuccess();
       })
-      .catch((err) => { });
+      .catch((err) => {
+        showError();
+      });
 
     //setCommentsData(clonedComments);
   };
@@ -131,8 +162,11 @@ const CommentCensorshipPage = () => {
         })
         .then((res) => {
           setCommentsData(clonedComments);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     } else {
       commentReportApi
         .denyComments({
@@ -140,8 +174,11 @@ const CommentCensorshipPage = () => {
         })
         .then((res) => {
           setCommentsData(clonedComments);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     }
 
     //setCommentsData(clonedComments);
@@ -166,8 +203,11 @@ const CommentCensorshipPage = () => {
       })
       .then((res) => {
         setCommentsData(clonedComments);
+        showSuccess();
       })
-      .catch((err) => { });
+      .catch((err) => {
+        showError();
+      });
 
     //setCommentsData(clonedComments);
 

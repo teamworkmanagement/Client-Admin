@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "./PushNotificationPage.scss";
 import { CButton, CCard, CCardBody, CTextarea } from "@coreui/react";
 import notiApi from "src/api/notiApi";
+import { toast } from "react-toastify";
+import CustomToast from "src/CustomToast/CustomToast";
 
 PushNotificationPage.propTypes = {};
 
@@ -15,9 +17,22 @@ function PushNotificationPage(props) {
     notiApi.push({
       notiContent: value,
     }).then(res => {
-
+      toast(
+        <CustomToast
+          type="success"
+          title="Thành công"
+          message="Đã gửi thông báo thành công!"
+        />
+      );
+      setValue('');
     }).catch(err => {
-
+      toast(
+        <CustomToast
+          type="error"
+          title="Lỗi"
+          message="Đã có lỗi xảy ra!"
+        />
+      );
     })
   }
   return (

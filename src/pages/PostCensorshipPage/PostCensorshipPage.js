@@ -18,422 +18,12 @@ import postReportApi from "src/api/postReportApi";
 import moment from "moment";
 import "moment/locale/vi";
 import Tag from "src/Tag/Tag";
+import { toast } from "react-toastify";
+import CustomToast from "src/CustomToast/CustomToast";
 
 moment.locale("vi");
 
 const PostCensorshipPage = () => {
-  //status : 0: seen, 1: new
-  /*const postsDataInit = [
-    {
-      id: 0,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Morbi quis nisl scelerisque, placerat risus at, malesuada lectus. Morbi eu justo pharetra, efficitur lectus vel, convallis leo. Proin eleifend vulputate arcu id pretium. Integer sodales, lacus a pellentesque sollicitudin, dolor risus fringilla quam, in pulvinar justo lectus eu eros. Duis sed sollicitudin metus, vel malesuada tellus. Maecenas lacinia volutpat ipsum, quis efficitur mi egestas at. Proin a libero eu sem dignissim lacinia.",
-      owner: {
-        userName: "Ngọc Huy",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-1.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://picsum.photos/id/1015/1000/600/',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 1,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Curabitur quis libero eros. Quisque faucibus lacus ut neque suscipit, vitae porttitor felis dignissim. Phasellus semper consequat odio eu aliquet. Quisque sem est, ultrices posuere congue vel, lacinia vitae diam. Phasellus non lorem laoreet, consectetur est sed, interdum erat. Sed dignissim sagittis orci vitae suscipit.",
-      owner: {
-        userName: "Dũng Nguyễn",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-2.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 2,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Sed ultrices fermentum malesuada. Nunc vitae consequat urna. Nam eget maximus sapien. Aenean sem sapien, fermentum ut accumsan quis, dapibus eget magna. Fusce vulputate lorem sit amet turpis iaculis, non interdum nisi gravida. Fusce cursus sollicitudin placerat. Phasellus dapibus quam ante, a tempor tellus venenatis nec.",
-      owner: {
-        userName: "Hồng Khoa",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-3.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 3,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Sed nec enim eget nibh consequat efficitur in ac purus. Sed mollis eros augue, sed tempus enim luctus nec. Suspendisse auctor interdum enim, ac elementum neque eleifend a.",
-      owner: {
-        userName: "Phúc Khải",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-4.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 4,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Aliquam erat volutpat. Cras mollis eros vitae felis malesuada, vitae pulvinar purus elementum. Quisque vitae viverra justo, sit amet blandit nisl. Sed neque libero, rhoncus eget accumsan at, tincidunt ac urna. Donec id condimentum diam. Vestibulum vel efficitur arcu.",
-      owner: {
-        userName: "Thanh Trúc",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-5.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 5,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Maecenas facilisis mi neque, quis vestibulum diam mollis eget. Fusce eget enim lorem. Suspendisse aliquam eget nunc quis pellentesque. Duis dignissim dolor nisl, id volutpat lectus laoreet id.",
-      owner: {
-        userName: "Lily",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-6.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 6,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Vestibulum ac velit at augue aliquam rhoncus. Mauris posuere enim eget vehicula euismod. Integer commodo hendrerit turpis, eget sagittis libero. Nullam feugiat ut lacus ut malesuada. Donec pretium in enim sit amet aliquam. Etiam eget elementum justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer auctor tellus ac sem auctor commodo. Mauris at nulla nulla.",
-      owner: {
-        userName: "Trần Dần",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-7.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 7,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Duis non mauris interdum, mollis nisl sit amet, mattis sem. Phasellus fringilla erat ut metus vestibulum, sit amet volutpat nulla porta. Nunc porttitor metus iaculis tincidunt venenatis. Aliquam dui massa, scelerisque non est id, tempor tempor purus. Phasellus vulputate lectus a erat scelerisque, porta laoreet diam porttitor.",
-      owner: {
-        userName: "Khá Bảnh",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-8.jpg",
-      },
-      status: "1",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 8,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Vivamus euismod maximus cursus. Curabitur vulputate tortor in dolor tincidunt, nec tempor urna vulputate. Duis semper convallis urna, ornare interdum turpis ultrices vitae. Duis imperdiet augue libero, et sagittis leo bibendum quis. Curabitur tincidunt sem at nibh lobortis, nec fringilla nibh ullamcorper. Donec non imperdiet dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;",
-      owner: {
-        userName: "Huấn Roses",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-9.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 9,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Suspendisse iaculis volutpat consequat. Donec finibus cursus neque vitae commodo. Cras consequat lectus sit amet pretium lobortis. Aliquam feugiat lobortis tellus, vitae elementum enim varius sed. In ullamcorper erat nec orci aliquam, sed auctor est mattis. Vivamus eleifend efficitur orci, ac euismod lectus.",
-      owner: {
-        userName: "Thanh Duyên",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-10.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 10,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Maecenas luctus elit pharetra commodo porttitor. Sed vel consequat nisl, eget pharetra risus. Donec turpis urna, vestibulum at ornare in, interdum non orci. Quisque eget velit massa. Etiam eu mauris at ex egestas varius porttitor a elit. Etiam sodales porta elit sit amet tincidunt.",
-      owner: {
-        userName: "Rich Kid",
-        userAvatar: "",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 11,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Fusce luctus scelerisque velit, vel eleifend orci rhoncus id. Aliquam orci nibh, vulputate a pellentesque id, pulvinar eu justo. Cras nec turpis in eros fringilla lacinia.",
-      owner: {
-        userName: "Rapper",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-12.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 12,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Duis viverra at dui sollicitudin ultricies. Cras at faucibus quam. Donec gravida mollis egestas. Nullam nec metus non eros facilisis sagittis vel sed mauris. Aenean euismod eget felis vel ultricies. ",
-      owner: {
-        userName: "Độ Mixi",
-        userAvatar: "",
-      },
-      status: "1",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 13,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed faucibus nunc ac tellus cursus facilisis. Suspendisse sollicitudin id nisl nec luctus. Pellentesque malesuada eu nisi id posuere. Nullam lobortis auctor eros eget ultricies. In quis massa nibh.",
-      owner: {
-        userName: "Đức Phúc",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-14.jpg",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 14,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Suspendisse vestibulum sed est sit amet venenatis. Integer aliquam massa sit amet sapien malesuada, eu accumsan nibh congue. Morbi commodo ligula a sollicitudin rhoncus.",
-      owner: {
-        userName: "Hòa minzi",
-        userAvatar: "",
-      },
-      status: "2",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 15,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Pellentesque placerat pellentesque nulla, in porta nisl egestas ac. Ut luctus consectetur nulla ac lacinia. Ut egestas euismod tortor sed ultricies. Quisque tristique viverra ipsum ut rutrum. Nam pretium ultrices tellus nec tristique. Ut congue nunc eget gravida egestas. Proin cursus elit quis mollis aliquet. ",
-      owner: {
-        userName: "Shitty",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-16.jpg",
-      },
-      status: "1",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-    {
-      id: 16,
-      isSelected: false,
-      isShown: false,
-      createdDate: "18/06/2021",
-      content:
-        "Suspendisse pretium semper eros, vulputate aliquam lectus convallis eu. Aenean viverra nisi placerat velit lobortis pharetra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque tortor purus, ultricies vel feugiat vel, lacinia id felis.",
-      owner: {
-        userName: "Justin",
-        userAvatar: "https://emilus.themenate.net/img/avatars/thumb-17.jpg",
-      },
-      status: "0",
-      images: [
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        },
-        {
-          original: 'https://hosonhanvat.net/wp-content/uploads/2019/08/yunero-the-juggernaut-nhan-vat-dota-2-12391.png',
-        }
-      ]
-    },
-  ];*/
-
   const [postsData, setPostsData] = useState([]);
   const [selectedPostIndexs, setSelectedPostIndexs] = useState([]);
 
@@ -459,6 +49,26 @@ const PostCensorshipPage = () => {
     console.log(clonedSelecteds);
   }, [postsData]);
 
+
+  const showError = () => {
+    toast(
+      <CustomToast
+        type="error"
+        title="Lỗi"
+        message="Đã có lỗi xảy ra!"
+      />
+    );
+  }
+
+  const showSuccess = () => {
+    toast(
+      <CustomToast
+        type="success"
+        title="Thành công"
+        message="Đã cập nhật thành công!"
+      />
+    );
+  }
   const confirmPost = (item, index, value) => {
     let clonedFeedbacks = [...postsData];
     clonedFeedbacks.splice(index, 1);
@@ -470,8 +80,11 @@ const PostCensorshipPage = () => {
         })
         .then((res) => {
           setPostsData(clonedFeedbacks);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     } else {
       postReportApi
         .denyPosts({
@@ -479,8 +92,11 @@ const PostCensorshipPage = () => {
         })
         .then((res) => {
           setPostsData(clonedFeedbacks);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     }
   };
 
@@ -498,8 +114,11 @@ const PostCensorshipPage = () => {
       })
       .then((res) => {
         setPostsData(clonedFeedbacks);
+        showSuccess();
       })
-      .catch((err) => { });
+      .catch((err) => {
+        showError();
+      });
 
   };
 
@@ -548,8 +167,11 @@ const PostCensorshipPage = () => {
         })
         .then((res) => {
           setPostsData(clonedFeedbacks);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     } else {
       postReportApi
         .denyPosts({
@@ -557,8 +179,11 @@ const PostCensorshipPage = () => {
         })
         .then((res) => {
           setPostsData(clonedFeedbacks);
+          showSuccess();
         })
-        .catch((err) => { });
+        .catch((err) => {
+          showError();
+        });
     }
 
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
@@ -582,8 +207,11 @@ const PostCensorshipPage = () => {
       })
       .then((res) => {
         setPostsData(clonedFeedbacks);
+        showSuccess();
       })
-      .catch((err) => { });
+      .catch((err) => {
+        showError();
+      });
 
     setSelectedPostIndexs([]); //confirm xong bỏ chọn hết
   }
@@ -641,6 +269,7 @@ const PostCensorshipPage = () => {
       }
     });
   };
+
   return (
     <div className="post-censorship-page">
       <CCard>
