@@ -2,7 +2,7 @@ import React from "react";
 import CIcon from "@coreui/icons-react";
 
 const _nav = [
- /* {
+  /* {
     _tag: "CSidebarNavItem",
     name: "Dashboard",
     to: "/dashboard",
@@ -17,6 +17,12 @@ const _nav = [
     name: "Kiểm duyệt bài viết",
     to: "/postcensorship",
     icon: "cil-pen-alt",
+  },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Kiểm duyệt bình luận",
+    to: "/postcensorship",
+    icon: "cil-speech",
   },
   {
     _tag: "CSidebarNavTitle",
