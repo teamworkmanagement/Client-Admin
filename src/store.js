@@ -1,17 +1,42 @@
-import { createStore } from 'redux'
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import storage from 'redux-persist/lib/storage';
+import {
+    FLUSH,
+    PAUSE,
+    PERSIST, persistReducer,
+    PURGE,
+    REGISTER, REHYDRATE
+} from 'redux-persist';
+import { combineReducers } from 'redux';
 
-const initialState = {
-  sidebarShow: 'responsive'
-}
+import appReducer from 'src/appSlice';
+import testReducer from 'src/testSlice';
+import authReducer from 'src/authSlice';
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return {...state, ...rest }
-    default:
-      return state
-  }
-}
 
-const store = createStore(changeState)
-export default store
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['test', 'app']
+};
+
+const rootReducer = combineReducers({
+    app: appReducer,
+    test: testReducer,
+    auth: authReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore(
+    {
+        reducer: persistedReducer,
+        middleware: getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
+    }
+);
+
+export default store;

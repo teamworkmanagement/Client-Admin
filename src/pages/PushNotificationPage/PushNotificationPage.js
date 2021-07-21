@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./PushNotificationPage.scss";
 import { CButton, CCard, CCardBody, CTextarea } from "@coreui/react";
+import notiApi from "src/api/notiApi";
 
 PushNotificationPage.propTypes = {};
 
 function PushNotificationPage(props) {
+  const [value, setValue] = useState('');
+  const onPush = () => {
+    if (!value)
+      return;
+    console.log(value);
+    notiApi.push({
+      notiContent: value,
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
+  }
   return (
     <div className="push-notification-page">
       <CCard>
@@ -14,9 +28,11 @@ function PushNotificationPage(props) {
             name="textarea-input"
             id="textarea-input"
             rows="9"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             placeholder="Nội dung thông báo..."
           />
-          <CButton className="btn-send" size="lg" color="info">
+          <CButton onClick={onPush} className="btn-send" size="lg" color="info">
             Gửi thông báo
           </CButton>
         </CCardBody>
